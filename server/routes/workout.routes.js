@@ -1,5 +1,4 @@
 // Rute za upravljanje treninzima i vježbama korisnika
-// Omogućuje spremanje, dohvaćanje i praćenje povijesti treninga
 const express = require("express");
 const router = express.Router();
 const { Workout } = require("../db");

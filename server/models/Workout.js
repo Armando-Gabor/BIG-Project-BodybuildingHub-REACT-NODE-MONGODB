@@ -1,64 +1,67 @@
 // Model za upravljanje i praćenje treninga korisnika
-// Omogućava strukturiranje i analizu treninga s pripadajućim vježbama
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // Shema za pojedinačne setove vježbi (kao poddokument)
-// Definira strukturu podataka za praćenje opterećenja i ponavljanja
 const setSchema = new Schema({
+  // Težina opterećenja u kilogramima
   weight: {
     type: Number,
     required: true,
-    min: 0, // Težina opterećenja u kilogramima (ne može biti negativna)
+    min: 0,
   },
+  // Broj ponavljanja
   reps: {
     type: Number,
     required: true,
-    min: 0, // Broj ponavljanja (ne može biti negativan)
+    min: 0,
   },
 });
 
 // Shema za pojedinačne vježbe (kao poddokument)
-// Definira strukturu podataka za svaku vježbu unutar treninga
 const exerciseSchema = new Schema({
+  // Naziv vježbe
   name: {
     type: String,
     required: true,
-    trim: true, // Naziv vježbe (npr. "Bench Press", "Squat", "Deadlift")
+    trim: true,
   },
-  sets: [setSchema], // Polje setova koje čine vježbu
+  // Polje setova koje čine vježbu
+  sets: [setSchema],
 });
 
-// --- Definicija sheme za treninge ---
-// Struktura podataka za pohranu kompletnih treninga s pripadajućim vježbama
+// Definicija sheme za treninge
 const workoutSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Indeksiranje za brže upite po korisniku
+      index: true,
     },
+    // Naziv treninga
     name: {
       type: String,
       required: true,
-      trim: true, // Naziv treninga (npr. "Prsa i triceps", "Noge", "Pull day")
+      trim: true,
     },
     date: {
       type: Date,
       required: true,
-      index: true, // Indeksiranje za brže upite po datumu
+      index: true,
     },
+    // Polje ciljanih mišićnih skupina
     targetMuscles: [
       {
         type: String,
-        required: true, // Polje ciljanih mišićnih skupina (npr. "chest", "legs")
+        required: true,
       },
     ],
-    exercises: [exerciseSchema], // Polje vježbi koje čine trening
+    // Polje vježbi koje čine trening
+    exercises: [exerciseSchema],
     createdAt: {
       type: Date,
-      default: Date.now, // Automatski postavlja vrijeme stvaranja zapisa
+      default: Date.now,
     },
   },
   {
@@ -74,7 +77,6 @@ const workoutSchema = new Schema(
 );
 
 // Stvaranje modela iz definirane sheme
-// Ovaj model se koristi za sve operacije s podacima o treninzima korisnika
 const Workout = mongoose.model("Workout", workoutSchema);
 
 module.exports = Workout;

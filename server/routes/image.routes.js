@@ -1,5 +1,4 @@
 // Rute za upravljanje slikama - upravljanje učitavanjem i dohvaćanjem slika iz AWS S3
-// Omogućuje pohranu slika napretka i funkcionalnost galerije
 const express = require("express");
 const router = express.Router();
 const { authMiddleware } = require("../auth");
@@ -8,11 +7,10 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // Ograničenje veličine datoteke na 10MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // Maksimalna veličina datoteke 10MB
 });
 
 // Konfiguracija AWS SDK v3 za S3 pohranu
-// Koristi se za komunikaciju s Amazon S3 servisom za pohranu slika
 const {
   S3Client,
   PutObjectCommand,
@@ -37,7 +35,7 @@ const S3_BUCKET = process.env.AWS_S3_BUCKET;
 /**
  * POST /upload
  * Ruta za učitavanje slike na S3 i spremanje reference u bazu podataka
- * Koristi multer middleware za obradu multipart/form-data zahtjeva
+ * Koristi multer middleware za obradu zahtjeva
  */
 router.post(
   "/upload",

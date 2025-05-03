@@ -1,5 +1,4 @@
 // Model za upravljanje obrocima i praćenje prehrane korisnika
-// Omogućava pohranu, praćenje i analizu prehrambenih navika
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -9,36 +8,38 @@ const foodSchema = new Schema({
   name: {
     type: String,
     required: true,
-    trim: true, // Uklanja razmake s početka i kraja naziva
+    trim: true,
   },
+  //Broj unosnih grama namirnice
   grams: {
     type: Number,
     required: true,
-    min: 0, // Količina u gramima ne može biti negativna
+    min: 0,
   },
+  // Podaci o nutritivnim vrijednostima namirnice na 100 grama
   protein: {
     type: Number,
     required: true,
-    min: 0, // Količina proteina u gramima
+    min: 0,
   },
   carbs: {
     type: Number,
     required: true,
-    min: 0, // Količina ugljikohidrata u gramima
+    min: 0,
   },
   fats: {
     type: Number,
     required: true,
-    min: 0, // Količina masti u gramima
+    min: 0,
   },
   calories: {
     type: Number,
     required: true,
-    min: 0, // Kalorijska vrijednost namirnice
+    min: 0,
   },
 });
 
-// --- Definicija sheme za obroke ---
+// Shema za obrok
 // Struktura podataka za pohranu kompletnih obroka s pripadajućim namirnicama
 const mealSchema = new Schema(
   {
@@ -46,18 +47,20 @@ const mealSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Indeksiranje za brže upite po korisniku
+      index: true,
     },
+    // Ime obroka
     name: {
       type: String,
       required: true,
-      trim: true, // Naziv obroka (npr. "Doručak", "Ručak", "Međuobrok")
+      trim: true,
     },
-    foods: [foodSchema], // Polje namirnica koje čine obrok
+    // Polje namirnica koje čine obrok
+    foods: [foodSchema],
     createdAt: {
       type: Date,
-      default: Date.now, // Automatski postavlja datum stvaranja obroka
-      index: true, // Indeks za sortiranje po vremenu
+      default: Date.now,
+      index: true,
     },
   },
   {
@@ -73,7 +76,6 @@ const mealSchema = new Schema(
 );
 
 // Stvaranje modela iz definirane sheme
-// Ovaj model se koristi za sve operacije s podacima o obrocima korisnika
 const Meal = mongoose.model("Meal", mealSchema);
 
 module.exports = Meal;

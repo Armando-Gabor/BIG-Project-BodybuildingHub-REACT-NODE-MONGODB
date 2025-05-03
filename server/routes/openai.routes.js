@@ -7,7 +7,7 @@ const { authMiddleware } = require("../auth");
 /**
  * GET /openrouter-key
  * Zaštićena ruta za dohvaćanje OpenRouter API ključa
- * Klijent koristi ovaj ključ za direktnu komunikaciju s AI servisom
+ * Ključ se koristi za direktnu komunikaciju s AI servisom
  */
 router.get("/key", authMiddleware, (req, res) => {
   try {
@@ -18,8 +18,7 @@ router.get("/key", authMiddleware, (req, res) => {
       });
     }
 
-    // Slanje API ključa klijentu
-    // Ovo je sigurno jer je ruta zaštićena autentifikacijom
+    // Slanje API ključa klijentu (sigurno zbog autentifikacije)
     res.json({ key: process.env.OPENROUTER_API_KEY });
   } catch (error) {
     // Obrada grešaka pri dohvaćanju ključa

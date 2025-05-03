@@ -1,5 +1,4 @@
-// Rute za autentifikaciju korisnika - omogućuje registraciju i prijavu
-// Upravlja registracijom novih korisnika i prijavom postojećih korisnika
+// Rute za autentifikaciju korisnika - omogućuju registraciju i prijavu
 const express = require("express");
 const router = express.Router();
 const { User } = require("../db");
@@ -21,7 +20,7 @@ router.post("/register", async (req, res) => {
       throw new Error("Database connection is not ready");
     }
 
-    // Validacija duljine korisničkog imena - minimalno 3 znaka
+    // Validacija korisničkog imena
     if (!username || typeof username !== "string" || username.length < 3) {
       return res.status(400).json({
         message: "Validation error",
@@ -30,7 +29,7 @@ router.post("/register", async (req, res) => {
     }
 
     // Stvaranje i spremanje novog korisnika u bazu
-    // Hashiranje lozinke se odvija automatski kroz middleware u modelu
+    // Hashiranje i kriptiranje se odvija automatski u modelu
     const user = new User({ username, email, password });
     const savedUser = await user.save();
 
@@ -81,8 +80,7 @@ router.post("/login", async (req, res) => {
     // Pronalazak korisnika po email adresi
     const user = await User.findOne({ email });
 
-    // Provjera postoji li korisnik i odgovara li lozinka
-    // Koristi se sigurna metoda za provjeru hashirane lozinke
+    // Provjera postoji li korisnik i odgovara li lozinka (metoda modela)
     if (!user || !(await user.verifyPassword(password))) {
       return res.status(401).json({ message: "Invalid email or password" });
     }

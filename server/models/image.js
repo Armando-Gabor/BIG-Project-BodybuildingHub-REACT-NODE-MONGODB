@@ -1,5 +1,4 @@
 // Model za pohranu i upravljanje slikama u aplikaciji
-// Omogućava praćenje korisničkog napretka kroz vizualne dokaze
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -11,26 +10,28 @@ const imageSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Indeksiranje za brže upite po korisniku
+      index: true,
     },
     uploadDate: {
       type: Date,
-      default: Date.now, // Automatski postavlja datum učitavanja slike
-      index: true, // Indeks za sortiranje po datumu učitavanja
+      default: Date.now,
+      index: true,
     },
     filename: {
       type: String,
-      trim: true, // Uklanja razmake s početka i kraja naziva datoteke
+      trim: true,
     },
+    // Jedinstveni ključ za identifikaciju slike u S3 pohrani
     s3Key: {
       type: String,
       required: true,
-      trim: true, // Jedinstveni ključ za identifikaciju slike u S3 pohrani
+      trim: true,
     },
+    // Javni URL za pristup slici
     url: {
       type: String,
       required: true,
-      trim: true, // Javni URL za pristup slici
+      trim: true,
     },
   },
   {
@@ -46,7 +47,6 @@ const imageSchema = new Schema(
 );
 
 // Stvaranje modela iz definirane sheme
-// Ovaj model se koristi za pohranu metapodataka o slikama korisnika
 const Image = mongoose.model("Image", imageSchema);
 
 module.exports = Image;

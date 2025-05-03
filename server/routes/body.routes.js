@@ -1,5 +1,4 @@
 // Rute za praćenje tjelesnih parametara korisnika
-// Omogućuju spremanje, dohvaćanje i praćenje tjelesnih mjera kroz vrijeme
 const express = require("express");
 const router = express.Router();
 const { BodyTracking } = require("../db");
@@ -8,14 +7,13 @@ const { authMiddleware } = require("../auth");
 /**
  * POST /
  * Ruta za spremanje novih tjelesnih mjera za autentificiranog korisnika
- * Prima podatke o spolu, težini, visini i detaljnim mjerama
+ * Prima podatke o spolu, težini, visini i detaljnim mjerama dijelova tijela
  */
 router.post("/", authMiddleware, async (req, res) => {
   try {
     const { gender, weight, height, measurements } = req.body;
 
     // Validacija da su svi potrebni podaci prisutni
-    // Provjerava se jesu li sve mjere unesene i imaju li vrijednost
     if (
       !gender ||
       !weight ||
@@ -50,7 +48,7 @@ router.post("/", authMiddleware, async (req, res) => {
 /**
  * GET /latest
  * Dohvaća najnovije tjelesne mjere za prijavljenog korisnika
- * Koristi se za prikaz trenutnog stanja i izračune
+ * Koristi se za prikaz trenutnih podataka na korisničkom sučelju
  */
 router.get("/latest", authMiddleware, async (req, res) => {
   try {
@@ -70,29 +68,6 @@ router.get("/latest", authMiddleware, async (req, res) => {
     // Obrada grešaka pri dohvaćanju podataka
     res.status(500).json({
       message: "Failed to fetch body data.",
-      error: err.message,
-    });
-  }
-});
-
-/**
- * GET /history
- * Dohvaća povijest tjelesnih mjera za analizu napretka korisnika
- * Vraća kronološki poredane podatke za izradu grafikona i trendova
- */
-router.get("/history", authMiddleware, async (req, res) => {
-  try {
-    // Dohvaća sve zapise korisnika sortirane od najnovijeg prema najstarijem
-    const history = await BodyTracking.find({ userId: req.user.id }).sort({
-      createdAt: -1,
-    });
-
-    // Slanje povijesnih podataka klijentu
-    res.json(history);
-  } catch (err) {
-    // Obrada grešaka pri dohvaćanju povijesnih podataka
-    res.status(500).json({
-      message: "Failed to fetch body history.",
       error: err.message,
     });
   }

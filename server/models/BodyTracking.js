@@ -1,52 +1,51 @@
 // Model za praćenje tjelesnih mjera i napretka korisnika
-// Omogućava spremanje i analizu tjelesnih parametara kroz vrijeme
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // --- Definicija sheme za praćenje tjelesnih parametara ---
-// Struktura podataka uključuje sve relevantne tjelesne mjere i dimenzije
 const bodyTrackingSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Indeksiranje za brže upite po korisniku
+      index: true,
     },
     gender: {
       type: String,
-      enum: ["male", "female"], // Ograničeno na muški ili ženski spol
+      enum: ["male", "female"],
       required: true,
     },
     weight: {
       type: Number,
       required: true,
-      min: 0, // Težina ne može biti negativna
+      min: 0,
     },
     height: {
       type: Number,
       required: true,
-      min: 0, // Visina ne može biti negativna
+      min: 0,
     },
+    // Tjelesne mjere
     measurements: {
-      neck: { type: Number, required: true, min: 0 }, // Opseg vrata
-      shoulders: { type: Number, required: true, min: 0 }, // Opseg ramena
-      chest: { type: Number, required: true, min: 0 }, // Opseg prsa
-      waist: { type: Number, required: true, min: 0 }, // Opseg struka
-      hips: { type: Number, required: true, min: 0 }, // Opseg bokova
-      leftThigh: { type: Number, required: true, min: 0 }, // Opseg lijevog bedra
-      rightThigh: { type: Number, required: true, min: 0 }, // Opseg desnog bedra
-      leftUpperArm: { type: Number, required: true, min: 0 }, // Opseg lijeve nadlaktice
-      rightUpperArm: { type: Number, required: true, min: 0 }, // Opseg desne nadlaktice
-      leftLowerArm: { type: Number, required: true, min: 0 }, // Opseg lijeve podlaktice
-      rightLowerArm: { type: Number, required: true, min: 0 }, // Opseg desne podlaktice
-      leftCalf: { type: Number, required: true, min: 0 }, // Opseg lijeve potkoljenice
-      rightCalf: { type: Number, required: true, min: 0 }, // Opseg desne potkoljenice
+      neck: { type: Number, required: true, min: 0 },
+      shoulders: { type: Number, required: true, min: 0 },
+      chest: { type: Number, required: true, min: 0 },
+      waist: { type: Number, required: true, min: 0 },
+      hips: { type: Number, required: true, min: 0 },
+      leftThigh: { type: Number, required: true, min: 0 },
+      rightThigh: { type: Number, required: true, min: 0 },
+      leftUpperArm: { type: Number, required: true, min: 0 },
+      rightUpperArm: { type: Number, required: true, min: 0 },
+      leftLowerArm: { type: Number, required: true, min: 0 },
+      rightLowerArm: { type: Number, required: true, min: 0 },
+      leftCalf: { type: Number, required: true, min: 0 },
+      rightCalf: { type: Number, required: true, min: 0 },
     },
     createdAt: {
       type: Date,
-      default: Date.now, // Automatski postavlja datum stvaranja zapisa
-      index: true, // Indeksiranje za brže upite po vremenu
+      default: Date.now,
+      index: true,
     },
   },
   {
@@ -62,7 +61,6 @@ const bodyTrackingSchema = new Schema(
 );
 
 // Stvaranje modela iz definirane sheme
-// Ovaj model se koristi za sve operacije s podacima o tjelesnim mjerama
 const BodyTracking = mongoose.model("BodyTracking", bodyTrackingSchema);
 
 module.exports = BodyTracking;

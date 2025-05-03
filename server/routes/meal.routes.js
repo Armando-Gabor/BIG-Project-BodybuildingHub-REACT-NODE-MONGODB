@@ -1,5 +1,4 @@
 // Rute za upravljanje prehranom i obrocima korisnika
-// Omogućuje spremanje, dohvaćanje i brisanje podataka o obrocima
 const express = require("express");
 const router = express.Router();
 const { Meal } = require("../db");
