@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\progress\MeasurementsInput.js
 // Komponenta za unos tjelesnih mjera
 // Prikazuje polja za unos različitih tjelesnih mjera (opsezi dijelova tijela)
 import React from "react";
@@ -21,9 +20,9 @@ const MeasurementsInput = ({
           ? `(${t("units.cm")})`
           : `(${t("units.inches")})`}
       </h3>
-      {/* Grid za polja unosa tjelesnih mjera */}
+      {/* Struktura za polja unosa tjelesnih mjera */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Mapiranje i prikaz polja za unos za svaku vrstu mjere */}
+        {/* Prikaz polja za unos za svaku mjeru */}
         {Object.entries(measurementLabels).map(([key, label]) => (
           <div key={key}>
             <label className="block mb-1 text-gray-300">

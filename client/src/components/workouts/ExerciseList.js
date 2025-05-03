@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\workouts\ExerciseList.js
 // Komponenta za prikaz i upravljanje listom vježbi u treningu
 // Omogućava dodavanje vježbi, setova i praćenje težina i ponavljanja
 import React from "react";

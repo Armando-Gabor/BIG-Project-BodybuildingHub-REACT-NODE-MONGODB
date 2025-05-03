@@ -1,5 +1,4 @@
 // Utility funkcije za rad s prehranom i nutritivnim vrijednostima
-// Pomaže u izračunu makronutrijenata i kalorija za namirnice i obroke
 
 // Inicijalno stanje nove namirnice
 // Koristi se kod dodavanja nove namirnice u obrok
@@ -12,7 +11,6 @@ export const initialFood = {
 };
 
 // Izračun makronutrijenata za namirnicu na temelju unesenih grama i vrijednosti po 100g
-// Pretvara nutritivne vrijednosti po 100g u stvarne vrijednosti za unesenu količinu
 export function calculateMacros(food) {
   const grams = parseFloat(food.grams) || 0;
   const proteinPer100 = parseFloat(food.protein) || 0;
@@ -35,7 +33,6 @@ export function calculateMacros(food) {
 }
 
 // Izračun ukupnih makronutrijenata za popis namirnica (obrok)
-// Zbraja sve vrijednosti iz popisa namirnica za analizu cijelog obroka
 export function calculateTotalMacros(foods) {
   return foods.reduce(
     (acc, f) => {

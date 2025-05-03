@@ -16,10 +16,10 @@ function DietTimeForm({ unitSystem }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Konverzija težine u kilograme ovisno o sustavu mjernih jedinica
     let currentInKg = current;
     let targetInKg = target;
 
+    // Konverzija težine u kilograme ovisno o sustavu mjernih jedinica
     if (unitSystem === "imperial") {
       currentInKg = parseFloat(current) * unitConversions.lbsToKg;
       targetInKg = parseFloat(target) * unitConversions.lbsToKg;
@@ -28,7 +28,7 @@ function DietTimeForm({ unitSystem }) {
       targetInKg = parseFloat(target);
     }
 
-    // Provjera je li cilj gubitak (a ne dobivanje) težine
+    // Provjera validnosti unosa
     const weightLoss = currentInKg - targetInKg;
     if (weightLoss <= 0)
       return setResult(t("calculators.dietTime.targetError"));

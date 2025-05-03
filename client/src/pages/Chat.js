@@ -1,5 +1,4 @@
-// Stranica za AI chat s virtualnim fitness trenerom
-// Omogućuje interakciju korisnika s umjetnom inteligencijom specijaliziranom za bodybuilding
+// Stranica za razgovor s AI trenerom
 import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import MessageList from "../components/chat/MessageList";
@@ -144,7 +143,7 @@ const Chat = () => {
   // Ako nema poruka, prikaži pozdravni ekran
   const showGreeting = messages.length === 0;
 
-  // Prikaz zaslona za učitavanje
+  // Prikaz učitavanja
   if (isLoading) {
     return (
       <main className="container mx-auto pt-20 px-4 flex justify-center">

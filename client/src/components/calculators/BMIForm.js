@@ -1,6 +1,4 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\calculators\BMIForm.js
 // Komponenta za izračun Indeksa tjelesne mase (BMI)
-// Omogućuje korisnicima unos tjelesne težine i visine za izračun BMI vrijednosti
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { calculateBMI, getBMIMessage } from "../../utils/calculatorUtils";
@@ -8,9 +6,9 @@ import { calculateBMI, getBMIMessage } from "../../utils/calculatorUtils";
 function BMIForm({ unitSystem }) {
   const { t } = useTranslation(); // Hook za prijevode
   const [weight, setWeight] = useState(""); // Stanje za težinu
-  const [height, setHeight] = useState(""); // Stanje za visinu (u metričkom sustavu)
-  const [feet, setFeet] = useState(""); // Stanje za stope (u imperijalnom sustavu)
-  const [inches, setInches] = useState(""); // Stanje za inče (u imperijalnom sustavu)
+  const [height, setHeight] = useState(""); // Stanje za visinu
+  const [feet, setFeet] = useState(""); // Stanje za stope
+  const [inches, setInches] = useState(""); // Stanje za inče
   const [age, setAge] = useState(""); // Stanje za dob
   const [gender, setGender] = useState(""); // Stanje za spol
   const [result, setResult] = useState(null); // Stanje za rezultat BMI izračuna
@@ -19,13 +17,15 @@ function BMIForm({ unitSystem }) {
   // Funkcija za obradu predaje forme
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Provjera da li su svi potrebni podaci uneseni
     if (!weight || (!height && unitSystem === "metric") || !age || !gender)
       return;
     if (unitSystem === "imperial" && !feet && !inches) return;
 
+    // Promjena visine u inče ako je odabran imperijalni sustav
     let heightValue;
     if (unitSystem === "imperial") {
-      // Pretvorba stopa i inča u ukupne inče
       heightValue = (parseInt(feet) || 0) * 12 + (parseInt(inches) || 0);
     } else {
       heightValue = height;

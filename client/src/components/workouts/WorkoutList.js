@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\workouts\WorkoutList.js
 // Komponenta za prikaz liste spremljenih treninga
 // Prikazuje sve spremljene treninge s mogućnošću proširivanja detalja i brisanja
 import React from "react";
@@ -20,7 +19,7 @@ const WorkoutList = ({
           {t("workouts.noWorkouts")}
         </div>
       ) : (
-        // Mapiranje i prikaz spremljenih treninga
+        // Prikaz spremljenih treninga
         savedWorkouts.map((workout) => {
           const expanded = expandedWorkout === workout._id;
           return (
@@ -28,7 +27,7 @@ const WorkoutList = ({
               key={workout._id}
               className="bg-gray-800 rounded-xl shadow-lg cursor-pointer"
             >
-              {/* Zaglavlje treninga s imenom, datumom i ciljnim mišićnim skupinama */}
+              {/* Zaglavlje treninga s imenom, datumom i ciljanim mišićnim skupinama */}
               <div
                 className="w-full flex items-center justify-between px-4 py-3"
                 onClick={() =>
@@ -44,7 +43,7 @@ const WorkoutList = ({
                       <div className="text-sm text-gray-400">
                         {new Date(workout.date).toLocaleDateString()}
                       </div>
-                      {/* Prikaz ciljnih mišićnih skupina */}
+                      {/* Prikaz ciljanih mišićnih skupina */}
                       <div className="flex flex-wrap gap-1">
                         {workout.targetMuscles.map((muscle) => (
                           <span
@@ -80,7 +79,7 @@ const WorkoutList = ({
                 </div>
               </div>
 
-              {/* Prošireni detalji treninga - prikazuju se samo kad je trening proširen */}
+              {/* Prošireni detalji treninga (prikazuju se samo kad je trening proširen klikom na ikonu) */}
               {expanded && (
                 <div className="px-6 pb-4">
                   <div className="space-y-4 mb-4">

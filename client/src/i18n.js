@@ -1,5 +1,4 @@
-// Konfiguracija internacionalizacije (i18n) za aplikaciju
-// Omogućuje višejezičnu podršku i prijevode tekstova
+// Konfiguracija lokalizacije (i18n) za aplikaciju
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
@@ -7,8 +6,7 @@ import { initReactI18next } from "react-i18next";
 import enTranslation from "./locales/en/translation.json";
 import hrTranslation from "./locales/hr/translation.json";
 
-// Definicija resursa za prijevode
-// Organizira prijevode po jezicima (engleski i hrvatski)
+// Definicija resursa za prijevode (hrvatski i engleski)
 const resources = {
   en: {
     translation: enTranslation, // Engleski prijevodi
@@ -26,7 +24,7 @@ i18n
     lng: localStorage.getItem("language") || "en", // Koristi spremljeni jezik iz lokalnog spremišta ili engleski kao zadani
     fallbackLng: "en", // Koristi engleski kao rezervni jezik ako prijevod nedostaje
     interpolation: {
-      escapeValue: false, // Dozvoljava HTML u prijevodima
+      escapeValue: false,
     },
   });
 

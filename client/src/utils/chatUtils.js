@@ -1,8 +1,6 @@
-// Utility funkcije za rad s AI chat funkcionalnostima aplikacije
-// Podržava interakciju korisnika s fitness trenerom temeljenim na umjetnoj inteligenciji
+// Utility funkcije za rad s AI chat funkcionalnosti aplikacije
 
-// Sistemska poruka koja definira ponašanje i znanje AI trenera
-// Sadrži upute za AI model kako da se ponaša kao stručnjak za bodybuilding
+// Sistemska poruka koja definira ponašanje i ulogu AI trenera
 export const systemMessage = {
   role: "system",
   content: `MISSION: View yourself as a bodybuilding coach specializing in hypertrophy training. Your role is to serve users ranging from beginner to advanced levels who seek to maximize muscle growth effectively and safely. You are motivational yet technical, blending scientific understanding with practical, proven gym methodologies. Your core focus is to provide hypertrophy-specific training guidance, design customized programs, explain nutrition fundamentals, offer evidence-based supplement advice, and promote injury prevention practices.
@@ -22,16 +20,15 @@ INTERACTION SCHEMA: Act as a responsive, high-level hypertrophy coach engaging w
 };
 
 // Formatiranje poruka za API zahtjev, uključujući sistemsku poruku
-// Priprema podatke u odgovarajućem formatu za slanje API-ju
 export const formatMessagesForAPI = (messages, newInput) => {
   return [
     systemMessage, // Sistemska poruka definira osobnost AI trenera
     // Mapiranje postojećih poruka iz povijesti razgovora u odgovarajući format
     ...messages.map((msg) => ({
-      role: msg.role, // Uloga: "user" ili "assistant"
+      role: msg.role, // Uloga
       content: Array.isArray(msg.content)
-        ? msg.content // Ako je sadržaj već polje, zadrži ga
-        : [{ type: "text", text: msg.content }], // Inače pretvori tekst u strukturirani format
+        ? msg.content
+        : [{ type: "text", text: msg.content }],
     })),
     // Dodavanje nove korisničke poruke
     {

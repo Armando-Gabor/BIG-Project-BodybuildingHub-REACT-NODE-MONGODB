@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\chat\ChatInputForm.js
 // Komponenta za unos poruka u chat
-// Omogućuje korisniku unos teksta i slanje poruka asistentu
+// Omogućuje korisniku unos teksta i slanje poruka AI treneru
 import React from "react";
 import { useTranslation } from "react-i18next";
 

@@ -1,11 +1,8 @@
 // Utility za generiranje PDF izvještaja o treninzima
 // Omogućuje stvaranje strukturiranih izvještaja o povijesti treninga
 import { jsPDF } from "jspdf";
-// Uvoz podrške za fontove, uključujući i podršku za hrvatske znakove
-import { addFont } from "jspdf-font";
 
 // Generiranje PDF izvještaja o filtriranim treninzima
-// Stvara strukturirani pregled treninga prema odabranim filterima
 export function generatePdfReport(
   savedWorkouts,
   filterMuscles,
@@ -20,11 +17,6 @@ export function generatePdfReport(
     return;
   }
 
-  // Dohvaćanje prevedenih naziva mišićnih skupina bez problema s razmacima
-  const filterTranslatedMuscles = filterMuscles.map((muscle) =>
-    t(`muscles.${muscle.trim()}`)
-  );
-
   // Stvaranje novog PDF dokumenta s podrškom za Unicode znakove (hrvatski)
   const doc = new jsPDF({
     orientation: "portrait", // Okomita orijentacija
@@ -35,14 +27,14 @@ export function generatePdfReport(
 
   // Dodavanje fonta koji ispravno podržava hrvatske znakove
   doc.addFont("times", "Times", "normal");
-  doc.setFont("Times"); // Korištenje Times Roman fonta s boljom Unicode podrškom
+  doc.setFont("Times");
 
   // Širina stranice za izračune centriranja elemenata
   const pageWidth = doc.internal.pageSize.getWidth();
 
   // Dodavanje naslova izvještaja
   doc.setFontSize(20);
-  doc.setTextColor(128, 0, 128); // Ljubičasta boja
+  doc.setTextColor(128, 0, 128);
   const title = t("workouts.report.title");
   doc.text(title, pageWidth / 2, 15, { align: "center" });
 
@@ -59,7 +51,7 @@ export function generatePdfReport(
   // Dodavanje informacija o filterima
   doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
-  let yPos = 30; // Vertikalna pozicija za sljedeći element
+  let yPos = 30;
 
   // Prikaz vremenskog raspona ako je definiran
   if (startDate || endDate) {
@@ -93,7 +85,7 @@ export function generatePdfReport(
 
     // Zaglavlje treninga
     doc.setFontSize(16);
-    doc.setTextColor(128, 0, 128); // Ljubičasta
+    doc.setTextColor(128, 0, 128);
     doc.text(`${workout.name}`, pageWidth / 2, yPos, { align: "center" });
     yPos += 5;
 
@@ -132,8 +124,8 @@ export function generatePdfReport(
       yPos += 3;
 
       // Izračun širine tablice i pozicije za centriranje
-      const tableWidth = 90; // Ukupna širina tablice
-      const tableX = (pageWidth - tableWidth) / 2; // Početna X pozicija za centriranje tablice
+      const tableWidth = 90;
+      const tableX = (pageWidth - tableWidth) / 2;
 
       // Zaglavlje tablice
       doc.setFillColor(128, 0, 128);

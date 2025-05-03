@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\workouts\MuscleGroupSelector.js
 // Komponenta za odabir mišićnih skupina
-// Prikazuje gumbe za odabir ciljnih mišićnih skupina u treningu
+// Prikazuje gumbe za odabir ciljanih mišićnih skupina u treningu
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { muscleGroups } from "../../utils/workoutUtils";
@@ -10,7 +9,7 @@ const MuscleGroupSelector = ({ selectedMuscles, onMuscleChange, label }) => {
 
   return (
     <div className="mb-6">
-      {/* Naslov selektora mišićnih skupina */}
+      {/* Naslov za gumbe za odabir mišićnih skupina */}
       <label className="block mb-2 font-semibold text-gray-300">
         {label || t("workouts.targetMuscles")}
       </label>

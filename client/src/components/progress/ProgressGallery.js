@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\progress\ProgressGallery.js
 // Komponenta za prikaz i upravljanje galerijom fotografija napretka
-// Omogućava učitavanje, pregled i brisanje naprednih fotografija grupiranih po datumima
+// Omogućava učitavanje, pregled i brisanje fotografija grupiranih po datumima
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -11,8 +10,8 @@ const ProgressGallery = () => {
   const [uploadMessage, setUploadMessage] = useState(""); // Stanje za poruku o učitavanju
   const [galleryImages, setGalleryImages] = useState([]); // Stanje za liste slika iz galerije
   const [presignedUrls, setPresignedUrls] = useState({}); // Stanje za URL-ove slika
-  const [expandedDates, setExpandedDates] = useState({}); // Stanje za proširene datume u galeriji
-  const [view, setView] = useState("gallery"); // Stanje za trenutni pogled ('gallery' ili 'upload')
+  const [expandedDates, setExpandedDates] = useState({}); // Stanje za datume u galeriji
+  const [view, setView] = useState("gallery"); // Stanje za trenutni tab ('gallery' ili 'upload')
   const [modalImage, setModalImage] = useState(null); // Stanje za prikaz uvećane slike u modalnom prozoru
 
   // Učitavanje slika iz galerije prilikom inicijalizacije komponente
@@ -142,7 +141,7 @@ const ProgressGallery = () => {
     }
   };
 
-  // Grupiranje slika po datumu (YYYY-MM-DD)
+  // Grupiranje slika po datumu
   const imagesByDate = galleryImages.reduce((acc, image) => {
     const date = new Date(image.uploadDate).toLocaleDateString();
     if (!acc[date]) acc[date] = [];
@@ -192,7 +191,7 @@ const ProgressGallery = () => {
           </div>
         </div>
       )}
-      {/* Navigacijski gumbi za prebacivanje između učitavanja i galerije */}
+      {/* Navigacijski gumbi za prebacivanje između tabova (upload i galerija) */}
       <div className="flex justify-center mb-8 gap-4">
         <button
           className={`px-6 py-2 rounded-lg font-bold text-lg transition-colors shadow-md cursor-pointer focus:outline-none ${
@@ -215,7 +214,7 @@ const ProgressGallery = () => {
           {t("progress.gallery.gallery")}
         </button>
       </div>
-      {/* Forma za učitavanje nove slike - prikazuje se samo u "upload" pogledu */}
+      {/* Forma za upload nove slike (upload tab) */}
       {view === "upload" && (
         <form onSubmit={handleImageUpload} className="flex flex-col gap-4">
           <label className="block mb-1 font-semibold text-gray-200">
@@ -255,13 +254,13 @@ const ProgressGallery = () => {
           </button>
         </form>
       )}
-      {/* Prikaz poruke o uspjehu/neuspjehu učitavanja - prikazuje se samo u "upload" pogledu */}
+      {/* Prikaz poruke o uspjehu/neuspjehu učitavanja (upload tab) */}
       {uploadMessage && view === "upload" && (
         <div className="mt-4 text-center text-sm font-semibold text-green-400">
           {uploadMessage}
         </div>
       )}
-      {/* Prikaz galerije slika - prikazuje se samo u "gallery" pogledu */}
+      {/* Prikaz galerije slika (gallery tab) */}
       {view === "gallery" && (
         <div className="flex flex-col gap-4 mt-8">
           {/* Poruka ako nema slika u galeriji */}
@@ -289,7 +288,7 @@ const ProgressGallery = () => {
                     ▼
                   </span>
                 </button>
-                {/* Prikaz svih slika za određeni datum - prikazuje se samo ako je datum proširen */}
+                {/* Prikaz svih slika za određeni datum (prikazuje se samo ako je datum proširen klikom) */}
                 {expandedDates[date] && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-gray-800 rounded-lg">
                     {images.map((image, idx) => (
@@ -306,7 +305,7 @@ const ProgressGallery = () => {
                             })
                           }
                         />
-                        {/* Gumb za brisanje slike - vidljiv samo na hover */}
+                        {/* Gumb za brisanje slike (vidljiv samo na hover)*/}
                         <button
                           className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-black bg-opacity-60 rounded-full p-1 text-white cursor-pointer hover:bg-red-500 shadow-lg transition-all duration-150"
                           title={t("common.delete")}

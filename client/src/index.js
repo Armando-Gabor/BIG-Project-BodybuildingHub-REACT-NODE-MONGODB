@@ -8,17 +8,15 @@ import "./index.css";
 import "./i18n";
 
 // Inicijalizacija React korijenskog elementa
-// Stvara korijenske instance React aplikacije u HTML elementu s ID-om "root"
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// Renderiranje aplikacije unutar StrictMode okruženja
-// StrictMode pomaže u identifikaciji potencijalnih problema u aplikaciji
+// Renderiranje aplikacije
 root.render(
   <React.StrictMode>
     <BrowserRouter
       future={{
-        v7_startTransition: true, // Koristi nove React tranzicije
-        v7_relativeSplatPath: true, // Omogućuje relativne putanje
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
       }}
     >
       <App />

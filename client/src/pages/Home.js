@@ -10,12 +10,12 @@ const Home = () => {
   return (
     <main className="min-h-screen w-full overflow-x-hidden pt-16">
       <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center justify-center">
-        {/* Gradijentna pozadina */}
+        {/* Pozadina */}
         <div className="fixed inset-0 bg-gradient-to-b from-purple-900 to-black opacity-80 -z-10"></div>
 
         {/* Glavni sadržaj */}
         <div className="relative text-center px-4 max-w-[90%] w-full mx-auto">
-          {/* Naslov s gradijentnim tekstom */}
+          {/* Naslov */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4 md:mb-6 leading-normal">
             {t("home.welcome")}
           </h1>
@@ -23,7 +23,7 @@ const Home = () => {
           {/* Podnaslov */}
           <p className="text-lg text-gray-300 mb-8">{t("home.tagline")}</p>
 
-          {/* Gumb za prijavu/registraciju s animacijama */}
+          {/* Animirani gumb za prijavu/registraciju */}
           <Link
             to="/login"
             className="w-auto max-w-[160px] min-h-[160px] mx-auto flex items-center justify-center text-shadow-sm text-shadow-purple-500 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base font-semibold text-gray-900 hover:scale-110 transition-transform duration-300 animate-[pulse_1.5s_ease-in-out_infinite] shadow-[0_0_15px_rgba(168,85,247,0.5)] hover:animate-none shadow-[0_0_30px_rgba(168,85,247,0.8)] transition-shadow"

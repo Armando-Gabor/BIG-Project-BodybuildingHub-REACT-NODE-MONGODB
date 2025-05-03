@@ -1,5 +1,4 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\calculators\GrecianForm.js
-// Komponenta za izračun idealnih proporcija prema Grecian idealu
+// Komponenta za izračun idealnih proporcija prema grčkom idealu
 // Izračunava idealne tjelesne mjere na temelju opsega zgloba
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +17,7 @@ function GrecianForm({ unitSystem }) {
     let w = parseFloat(wrist);
     if (!w) return;
 
-    // Konverzija u centimetre ako su mjere u imperijalnim jedinicama
+    // Konverzija u centimetre ako je odabran imperijalni sustav
     if (unitSystem === "imperial") {
       w = w * unitConversions.inchesToCm;
     }
@@ -32,7 +31,7 @@ function GrecianForm({ unitSystem }) {
     const thigh = w * 3.0;
     const calve = w * 2.0;
     const neck = w * 1.9;
-    const shoulder = waist * 1.618; // Zlatni omjer
+    const shoulder = waist * 1.618; // Omjer zlatnog reza
 
     // Postavljanje rezultata u odgovarajućim mjernim jedinicama
     if (unitSystem === "imperial") {
@@ -90,7 +89,6 @@ function GrecianForm({ unitSystem }) {
         {t("calculators.grecian.calculate")}
       </button>
       {result && (
-        // Prikaz rezultata izračuna
         <div className="mt-4 text-center font-semibold">
           <div>
             {t("calculators.grecian.chest")} {result.chest.toFixed(1)} {unit}

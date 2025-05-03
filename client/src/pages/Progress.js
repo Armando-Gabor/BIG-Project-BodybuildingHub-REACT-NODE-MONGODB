@@ -1,5 +1,4 @@
-// Stranica za praćenje napretka u treningu i tjelesnim mjerama
-// Omogućuje korisnicima praćenje tjelesnih parametara i foto-dokumentaciju napretka
+// Stranica za praćenje napretka u obliku tjelesnih mjerama
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import BodyDataForm from "../components/progress/BodyDataForm";
@@ -7,7 +6,7 @@ import ProgressGallery from "../components/progress/ProgressGallery";
 
 const Progress = () => {
   const { t } = useTranslation(); // Hook za prijevode
-  const [view, setView] = useState("body"); // Stanje za praćenje trenutnog prikaza ('body' za tjelesne podatke ili 'gallery' za galeriju)
+  const [view, setView] = useState("body"); // Stanje za praćenje trenutnog taba
 
   return (
     <main className="container mx-auto pt-20 px-4 flex justify-center">

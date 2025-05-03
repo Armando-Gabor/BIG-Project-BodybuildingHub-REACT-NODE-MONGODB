@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\diet\FoodList.js
 // Komponenta za prikaz liste dodanih namirnica
 // Prikazuje sve dodane namirnice s njihovim nutritivnim vrijednostima i ukupnim zbrojem
 import React from "react";

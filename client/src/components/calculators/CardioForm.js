@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\calculators\CardioForm.js
 // Komponenta za izračun potrošenih kalorija tijekom kardio aktivnosti
 // Izračunava kalorije potrošene na temelju vrste aktivnosti, trajanja i težine korisnika
 import React, { useState } from "react";

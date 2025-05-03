@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\chat\MessageList.js
 // Komponenta za prikaz liste poruka u chatu
-// Prikazuje izmjenu poruka između korisnika i asistenta s podrškom za Markdown
+// Prikazuje izmjenu poruka između korisnika i asistenta
 import React from "react";
 import ReactMarkdown from "react-markdown";
 

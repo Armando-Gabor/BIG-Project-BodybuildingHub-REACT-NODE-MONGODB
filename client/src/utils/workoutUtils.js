@@ -1,8 +1,6 @@
 // Utility funkcije za upravljanje treninzima i vježbama
-// Sadrži pomoćne funkcije za kreiranje, validaciju i formatiranje treninga
 
-// Mišićne skupine dostupne za treninge
-// Lista svih mišićnih skupina koje se mogu ciljati u treningu
+// Mišićne skupine koje se mogu odabrati za treninge
 export const muscleGroups = [
   "chest", // Prsa
   "back", // Leđa
@@ -32,7 +30,7 @@ export const initialSet = {
   reps: "", // Broj ponavljanja
 };
 
-// Formatiranje datuma u YYYY-MM-DD format
+// Formatiranje datuma
 // Pretvara JavaScript Date objekt u standardni format datuma
 export function formatDate(date) {
   const d = new Date(date);
@@ -40,7 +38,6 @@ export function formatDate(date) {
 }
 
 // Validacija podataka o treningu prije slanja na server
-// Provjerava jesu li svi obavezni podaci uneseni i ispravni
 export function validateWorkout(workoutName, exercises, targetMuscles, t) {
   if (!workoutName) {
     return t("workouts.validation.nameRequired");
@@ -71,17 +68,16 @@ export function validateWorkout(workoutName, exercises, targetMuscles, t) {
     }
   }
 
-  return ""; // Nema grešaka
+  return "";
 }
 
 // Formatiranje vježbi za slanje na API
-// Pretvara podatke iz forme u format koji očekuje API
 export function formatExercisesForSubmission(exercises) {
   return exercises.map((exercise) => ({
     name: exercise.name,
     sets: exercise.sets.map((set) => ({
-      weight: parseFloat(set.weight), // Pretvorba string -> float za težinu
-      reps: parseInt(set.reps, 10), // Pretvorba string -> integer za ponavljanja
+      weight: parseFloat(set.weight),
+      reps: parseInt(set.reps, 10),
     })),
   }));
 }

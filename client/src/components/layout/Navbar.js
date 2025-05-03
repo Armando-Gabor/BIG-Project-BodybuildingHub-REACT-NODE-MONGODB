@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\layout\Navbar.js
 // Komponenta za navigacijsku traku
-// Prikazuje glavnu navigaciju aplikacije s linkovima na različite stranice i kontrolama za promjenu jezika
+// Prikazuje glavnu navigaciju aplikacije (stranice, prijava/odjava, jezik)
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -39,7 +38,7 @@ const Navbar = () => {
     <header className="fixed top-0 left-0 right-0 w-full backdrop-blur-xl z-50">
       <nav className="text-white p-4 w-full">
         <div className="container mx-auto flex flex-wrap justify-between items-center relative">
-          {/* Logo aplikacije */}
+          {/* Naslov stranice */}
           <Link
             to="/"
             className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent p-1"

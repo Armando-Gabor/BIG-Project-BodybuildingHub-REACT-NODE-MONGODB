@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\workouts\TemplateSelector.js
 // Komponenta za odabir predloška treninga
 // Prikazuje modalni prozor s listom spremljenih treninga za odabir kao predložak
 import React from "react";
@@ -65,7 +64,7 @@ const TemplateSelector = ({
                       {t("workouts.exercises").toLowerCase()}
                     </p>
                   </div>
-                  {/* Prikaz ciljnih mišićnih skupina */}
+                  {/* Prikaz ciljanih mišićnih skupina */}
                   <div className="flex flex-wrap gap-1 max-w-[40%] justify-end">
                     {workout.targetMuscles.map((muscle) => (
                       <span

@@ -1,7 +1,8 @@
 // Glavna React komponenta aplikacije
-// Definira strukturu aplikacije i konfiguraciju ruta
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
+// Uvoz potrebnih komponenti i stranica
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -15,14 +16,14 @@ import PublicRoute from "./components/auth/PublicRoute";
 
 function App() {
   return (
-    // Glavni kontejner aplikacije s pozadinskim gradijentom i osnovnim stilovima
+    // Glavni kontejner aplikacije
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black font-sans text-gray-100">
       {/* Navigacijska traka prikazana na svim stranicama */}
       <Navbar />
 
       {/* Definicija ruta aplikacije */}
       <Routes>
-        {/* Početna stranica - dostupna svima */}
+        {/* Početna stranica */}
         <Route
           path="/"
           element={
@@ -32,7 +33,7 @@ function App() {
           }
         />
 
-        {/* Stranica za prijavu - dostupna samo neprijavljenim korisnicima */}
+        {/* Stranica za prijavu */}
         <Route
           path="/login"
           element={
@@ -52,8 +53,15 @@ function App() {
           }
         />
 
-        {/* Stranica s kalkulatorima - dostupna svima */}
-        <Route path="/calculators" element={<Calculators />} />
+        {/* Stranica s kalkulatorima - zahtijeva prijavu */}
+        <Route
+          path="/calculators"
+          element={
+            <PrivateRoute>
+              <Calculators />
+            </PrivateRoute>
+          }
+        />
 
         {/* Stranica za praćenje prehrane - zahtijeva prijavu */}
         <Route

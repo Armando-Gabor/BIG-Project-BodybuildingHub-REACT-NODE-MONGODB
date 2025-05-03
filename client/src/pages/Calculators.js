@@ -1,5 +1,5 @@
 // Stranica s kalkulatorima za fitnes i prehranu
-// Omogućuje pristup različitim kalkulatorima za izračun zdravstvenih parametara
+// Omogućuje pristup različitim kalkulatorima za izračune
 import React, { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import BMIForm from "../components/calculators/BMIForm";
@@ -52,7 +52,7 @@ const Calculators = () => {
         key: "grecian",
         label: t("calculators.grecian.title"),
         description: t("calculators.grecian.description"),
-        Form: GrecianForm, // Kalkulator idealne tjelesne građe
+        Form: GrecianForm, // Kalkulator grčke idealne tjelesne građe
       },
     ],
     [t]

@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\workouts\WorkoutFilter.js
 // Komponenta za filtriranje i sortiranje liste treninga
 // Omogućava filtriranje po mišićnoj skupini, datumu i sortiranje
 import React from "react";

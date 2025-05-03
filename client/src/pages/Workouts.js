@@ -1,5 +1,4 @@
-// Stranica za upravljanje treninzima
-// Omogućuje korisnicima kreiranje, pregled i upravljanje treninzima
+// Stranica za kreiranje, upravljanje i pregled treninga
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import MuscleGroupSelector from "../components/workouts/MuscleGroupSelector";
@@ -20,22 +19,26 @@ import { generatePdfReport } from "../utils/pdfGenerator";
 
 function Workouts() {
   const { t } = useTranslation(); // Hook za prijevode
-  const [tab, setTab] = useState(0); // Stanje za praćenje aktivnog taba (0 = novi trening, 1 = spremljeni treninzi)
-  const [workoutName, setWorkoutName] = useState(""); // Naziv treninga
-  const [targetMuscles, setTargetMuscles] = useState([]); // Ciljane mišićne skupine
-  const [workoutDate, setWorkoutDate] = useState(formatDate(new Date())); // Datum treninga (inicijalno danas)
-  const [exercises, setExercises] = useState([]); // Vježbe u treningu
-  const [exerciseInput, setExerciseInput] = useState({ ...initialExercise }); // Podaci za novu vježbu
-  const [savedWorkouts, setSavedWorkouts] = useState([]); // Spremljeni treninzi
-  const [expandedWorkout, setExpandedWorkout] = useState(null); // Prošireni prikaz treninga
-  const [error, setError] = useState(""); // Poruke o greškama
-  const [showTemplateSelector, setShowTemplateSelector] = useState(false); // Prikaz izbornika predložaka
+  const [tab, setTab] = useState(0); // Stanje za praćenje aktivnog taba
 
-  // Stanja za filtere
-  const [filterMuscles, setFilterMuscles] = useState([]); // Filtriranje po mišićnim skupinama
-  const [startDate, setStartDate] = useState(""); // Početni datum za filtriranje
-  const [endDate, setEndDate] = useState(""); // Krajnji datum za filtriranje
-  const [sortOrder, setSortOrder] = useState("desc"); // Redoslijed sortiranja ("asc" ili "desc")
+  // Stanja za unos podataka o treningu
+  const [workoutName, setWorkoutName] = useState(""); // Stanje za naziv treninga
+  const [targetMuscles, setTargetMuscles] = useState([]); // Stanje za ciljane mišićne skupine
+  const [workoutDate, setWorkoutDate] = useState(formatDate(new Date())); // Stanje za datum treninga
+  const [exercises, setExercises] = useState([]); // Stanje za vježbe u treningu
+  const [exerciseInput, setExerciseInput] = useState({ ...initialExercise }); // Stanje za podatke za novu vježbu
+  const [error, setError] = useState(""); // Stanje za poruke o greškama
+  const [showTemplateSelector, setShowTemplateSelector] = useState(false); // Stanje za prikaz izbornika predložaka
+
+  // Stanja za spremljene treninge
+  const [savedWorkouts, setSavedWorkouts] = useState([]); // Stanje za spremljene treninge
+  const [expandedWorkout, setExpandedWorkout] = useState(null); // Stanje za prošireni prikaz treninga
+
+  // Stanja za filtere na spremljenim treninzima
+  const [filterMuscles, setFilterMuscles] = useState([]); // Stanje za filtriranja po mišićnim skupinama
+  const [startDate, setStartDate] = useState(""); // Stanje za početni datum za filtriranje
+  const [endDate, setEndDate] = useState(""); // Stanje za krajnji datum za filtriranje
+  const [sortOrder, setSortOrder] = useState("desc"); // Stanje za redoslijed sortiranja
 
   // Dohvaćanje treninga prilikom promjene taba ili filtera
   useEffect(() => {
@@ -200,7 +203,6 @@ function Workouts() {
         throw new Error(t("workouts.errorDeleting"));
       }
 
-      // Ažuriranje lokalnog stanja nakon brisanja
       setSavedWorkouts(
         savedWorkouts.filter((workout) => workout._id !== workoutId)
       );
@@ -210,23 +212,17 @@ function Workouts() {
     }
   };
 
-  // Funkcija za korištenje spremljenog treninga kao predloška
+  // Funkcija za korištenje spremljenog treninga kao predloška s prethodnim vrijednostima kao placeholderima
   const useWorkoutAsTemplate = (workout) => {
-    // Stvaranje predloška vježbi s prethodnim vrijednostima kao placeholderima
     const templateExercises = createTemplateFromWorkout(workout);
-
-    // Postavljanje podataka predloška uz zadržavanje praznog imena i današnjeg datuma
     setTargetMuscles([...workout.targetMuscles]);
     setExercises(templateExercises);
-
-    // Sakrivanje izbornika predložaka i prebacivanje na tab za dodavanje novog treninga
     setShowTemplateSelector(false);
     setTab(0);
   };
 
   // Funkcija za prikazivanje/skrivanje izbornika predložaka
   const toggleTemplateSelector = () => {
-    // Ako prikazujemo izbornik predložaka, trebamo dohvatiti treninge
     if (!showTemplateSelector) {
       fetchWorkouts();
     }

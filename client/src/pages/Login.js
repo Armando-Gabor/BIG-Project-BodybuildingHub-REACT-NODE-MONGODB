@@ -42,10 +42,10 @@ const Login = () => {
         throw new Error(error.message || "Server error");
       }
 
-      // Pohrana tokena u lokalno spremište nakon uspješne prijave/registracije
+      // Pohrana tokena nakon uspješne prijave/registracije
       const { token } = await response.json();
       localStorage.setItem("token", token);
-      navigate("/body"); // Preusmjeravanje na stranicu za praćenje tijela
+      navigate("/body"); // Preusmjeravanje na stranicu za praćenje napretka
     } catch (err) {
       console.error("Auth error:", err);
       // Prikaz poruke o grešci
@@ -67,7 +67,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-gray-800/50 p-8 rounded-xl shadow-lg max-w-md w-full backdrop-blur-sm">
-        {/* Logotip aplikacije */}
+        {/* Naslov */}
         <div className="flex justify-center mb-8">
           <Link
             to="/"
@@ -104,7 +104,7 @@ const Login = () => {
 
           {/* Obrazac za prijavu/registraciju */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Polje za korisničko ime - vidljivo samo u prikazu za registraciju */}
+            {/* Polje za korisničko ime (registracijski tab) */}
             {!isLoginView && (
               <div>
                 <input
@@ -142,7 +142,7 @@ const Login = () => {
                 required
               />
             </div>
-            {/* Polje za potvrdu lozinke - vidljivo samo u prikazu za registraciju */}
+            {/* Polje za potvrdu lozinke (registracijski tab) */}
             {!isLoginView && (
               <div>
                 <input

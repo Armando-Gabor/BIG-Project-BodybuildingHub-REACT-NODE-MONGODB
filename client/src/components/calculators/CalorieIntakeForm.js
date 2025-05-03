@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\calculators\CalorieIntakeForm.js
 // Komponenta za izračun dnevnog unosa kalorija
 // Koristi BMR, razinu aktivnosti i ciljeve korisnika za preporuku dnevnog kalorijskog unosa
 import React, { useState } from "react";
@@ -20,7 +19,7 @@ function CalorieIntakeForm({ unitSystem }) {
     let calories = bmr * activity; // Osnovni izračun kalorija prema BMR-u i aktivnosti
     let msg = t("calculators.calorieIntake.defaultMessage");
 
-    // Ako se koristi imperijalni sustav, promjena težine je u lbs, pa pretvaramo u kg za izračun
+    // Ako se koristi imperijalni sustav, promjena težine je u lbs (pa pretvorba u kg za izračun)
     const weightChangeKg =
       unitSystem === "imperial"
         ? parseFloat(weightChange) * unitConversions.lbsToKg
@@ -28,6 +27,7 @@ function CalorieIntakeForm({ unitSystem }) {
 
     // Izračuni za različite ciljeve: gubitak težine, dobitak težine ili održavanje
     if (goal === "lose" && weightChange) {
+      // Ako je unesena količina gubitka težine
       const weeklyDeficit = weightChangeKg * 7700; // 7700 kalorija = 1kg masti
       const dailyDeficit = weeklyDeficit / 7; // Dnevni deficit za postizanje tjednog cilja
       calories -= dailyDeficit;
@@ -37,10 +37,11 @@ function CalorieIntakeForm({ unitSystem }) {
         deficit: dailyDeficit.toFixed(0),
       });
     } else if (goal === "lose") {
-      // Standardni deficit od 500 kalorija dnevno
+      // Gubitak bez unesene količine težine
       calories -= 500;
       msg = t("calculators.calorieIntake.defaultDeficitMessage");
     } else if (goal === "gain" && weightChange) {
+      // Ako je unesena količina dobitka težine
       const weeklySurplus = weightChangeKg * 7700; // 7700 kalorija = 1kg
       const dailySurplus = weeklySurplus / 7; // Dnevni višak za postizanje tjednog cilja
       calories += dailySurplus;
@@ -50,7 +51,7 @@ function CalorieIntakeForm({ unitSystem }) {
         surplus: dailySurplus.toFixed(0),
       });
     } else if (goal === "gain") {
-      // Standardni višak od 500 kalorija dnevno
+      // Dobitak bez unesene količine težine
       calories += 500;
       msg = t("calculators.calorieIntake.defaultSurplusMessage");
     }

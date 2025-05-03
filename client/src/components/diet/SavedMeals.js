@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\diet\SavedMeals.js
 // Komponenta za prikaz spremljenih obroka
 // Prikazuje listu spremljenih obroka s mogućnošću proširivanja i brisanja
 import React from "react";
@@ -21,7 +20,7 @@ const SavedMeals = ({
         </div>
       )}
 
-      {/* Mapiranje i prikaz spremljenih obroka */}
+      {/* Prikaz spremljenih obroka */}
       {savedMeals.map((meal) => {
         const expanded = expandedMeal === meal._id;
         return (
@@ -56,7 +55,7 @@ const SavedMeals = ({
                 </span>
               </button>
             </div>
-            {/* Prošireni sadržaj s detaljima o obroku - prikazuje se samo ako je obrok proširen */}
+            {/* Prošireni sadržaj s detaljima o obroku (prikazuje se samo ako je obrok proširen klikom na ikonu) */}
             {expanded && (
               <div className="px-6 pb-4">
                 {/* Lista namirnica u obroku */}

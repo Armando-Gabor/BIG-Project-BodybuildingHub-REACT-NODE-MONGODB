@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\calculators\BMRForm.js
 // Komponenta za izračun bazalnog metabolizma (BMR)
 // Omogućuje izračun dnevne potrošnje kalorija u mirovanju prema podacima korisnika
 import React, { useState } from "react";
@@ -9,9 +8,9 @@ function BMRForm({ unitSystem }) {
   const { t } = useTranslation(); // Hook za prijevode
   const [gender, setGender] = useState(""); // Stanje za spol
   const [weight, setWeight] = useState(""); // Stanje za težinu
-  const [height, setHeight] = useState(""); // Stanje za visinu (u metričkom sustavu)
-  const [feet, setFeet] = useState(""); // Stanje za stope (u imperijalnom sustavu)
-  const [inches, setInches] = useState(""); // Stanje za inče (u imperijalnom sustavu)
+  const [height, setHeight] = useState(""); // Stanje za visinu
+  const [feet, setFeet] = useState(""); // Stanje za stope
+  const [inches, setInches] = useState(""); // Stanje za inče
   const [age, setAge] = useState(""); // Stanje za dob
   const [result, setResult] = useState(null); // Stanje za rezultat BMR izračuna
 
@@ -19,9 +18,9 @@ function BMRForm({ unitSystem }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Pretvorba stopa i inča u ukupne inče (ako je odabran imperijalni sustav)
     let heightValue;
     if (unitSystem === "imperial") {
-      // Pretvorba stopa i inča u ukupne inče
       heightValue = (parseInt(feet) || 0) * 12 + (parseInt(inches) || 0);
     } else {
       heightValue = height;

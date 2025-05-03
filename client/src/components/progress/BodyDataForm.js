@@ -1,5 +1,5 @@
 // Komponenta za unos i ažuriranje tjelesnih podataka korisnika
-// Omogućuje unos osnovnih antropometrijskih mjera i tjelesne težine
+// Omogućuje unos podataka o tjelesnim mjerama (spol, težina, visina, opsezi mišića)
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import MeasurementsInput from "./MeasurementsInput";
@@ -14,8 +14,8 @@ const BodyDataForm = () => {
   const [gender, setGender] = useState(""); // Stanje za spol korisnika
   const [weight, setWeight] = useState(""); // Stanje za težinu
   const [height, setHeight] = useState(""); // Stanje za visinu
-  const [feet, setFeet] = useState(""); // Stanje za visinu u stopama (za imperijalni sustav)
-  const [inches, setInches] = useState(""); // Stanje za visinu u inčima (za imperijalni sustav)
+  const [feet, setFeet] = useState(""); // Stanje za visinu u stopama
+  const [inches, setInches] = useState(""); // Stanje za visinu u inčima
   const [measurements, setMeasurements] = useState(initialMeasurements); // Stanje za ostale tjelesne mjere
   const [message, setMessage] = useState(""); // Stanje za prikazivanje poruke korisniku
   const [unitSystem, setUnitSystem] = useState("metric"); // Stanje za odabir mjernog sustava
@@ -24,12 +24,15 @@ const BodyDataForm = () => {
   useEffect(() => {
     const fetchLatestBody = async () => {
       try {
+        // Provjera tokena za autorizaciju
         const token = localStorage.getItem("token");
         const res = await fetch("/api/body/latest", {
           headers: {
             Authorization: token ? `Bearer ${token}` : "",
           },
         });
+
+        // Ako je token valjan, učitaj podatke
         if (res.ok) {
           const data = await res.json();
           setGender(data.gender || "");
@@ -47,11 +50,10 @@ const BodyDataForm = () => {
 
           // Ako je odabran imperijalni sustav, izračunaj stope i inče
           if (unitSystem === "imperial" && data.height) {
-            // Preciznija konverzija iz cm u stope i inče
             const heightInCm = parseFloat(data.height);
-            const totalInches = heightInCm * 0.393701; // Točna konverzija, bez zaokruživanja
+            const totalInches = heightInCm * 0.393701;
             const calculatedFeet = Math.floor(totalInches / 12);
-            const calculatedInches = Math.round((totalInches % 12) * 10) / 10; // Zaokruživanje na 1 decimalu
+            const calculatedInches = Math.round((totalInches % 12) * 10) / 10;
             setFeet(calculatedFeet.toString());
             setInches(calculatedInches.toString());
           }
@@ -59,7 +61,6 @@ const BodyDataForm = () => {
           // Formatiranje mjera iz API odgovora
           const formattedMeasurements = formatMeasurements(data);
 
-          // Konverzija mjera ako je odabran imperijalni sustav
           if (unitSystem === "imperial") {
             setMeasurements(
               convertMeasurements(formattedMeasurements, "metric", "imperial")
@@ -69,11 +70,11 @@ const BodyDataForm = () => {
           }
         }
       } catch {
-        // Ignoriraj greške, jednostavno nemoj unaprijed popuniti polja
+        // Ignoriranje grešaka, nema ispunjavanja podataka
       }
     };
     fetchLatestBody();
-  }, []); // Izvršava se samo pri inicijalnom renderiranju
+  }, []); // Izvršava se samo pri početnom renderu
 
   // Funkcija za promjenu mjernog sustava
   const handleUnitSystemChange = (newSystem) => {
@@ -88,17 +89,14 @@ const BodyDataForm = () => {
       if (height) {
         // Pohrani originalnu visinu za točnu konverziju natrag
         localStorage.setItem("originalHeight", height);
-
-        // Preciznija konverzija iz cm u stope i inče
         const heightInCm = parseFloat(height);
-        const totalInches = heightInCm * 0.393701; // Točna konverzija, bez zaokruživanja
+        const totalInches = heightInCm * 0.393701;
         const calculatedFeet = Math.floor(totalInches / 12);
-        const calculatedInches = Math.round((totalInches % 12) * 10) / 10; // Zaokruživanje na 1 decimalu
+        const calculatedInches = Math.round((totalInches % 12) * 10) / 10;
         setFeet(calculatedFeet.toString());
         setInches(calculatedInches.toString());
       }
 
-      // Konverzija svih mjera iz metričkog u imperijalni sustav
       setMeasurements(convertMeasurements(measurements, "metric", "imperial"));
     } else {
       // Konverzija iz imperijalnog u metrički sustav
@@ -115,11 +113,10 @@ const BodyDataForm = () => {
       ) {
         setHeight(originalHeight);
       } else if (feet || inches) {
-        // Rezervna opcija ako originalna visina nije dostupna
         const feetValue = parseFloat(feet) || 0;
         const inchesValue = parseFloat(inches) || 0;
         const totalInches = feetValue * 12 + inchesValue;
-        const heightInCm = (totalInches * 2.54).toFixed(1); // Preciznija konverzija
+        const heightInCm = (totalInches * 2.54).toFixed(1);
         setHeight(heightInCm);
       }
 
@@ -146,11 +143,10 @@ const BodyDataForm = () => {
     // Izračun visine u cm za pohranu (uvijek pohranjujemo u metričkom sustavu)
     let heightValue = height;
     if (unitSystem === "imperial") {
-      // Preciznija konverzija iz stopa/inča u cm
       const feetValue = parseFloat(feet) || 0;
       const inchesValue = parseFloat(inches) || 0;
       const totalInches = feetValue * 12 + inchesValue;
-      heightValue = (totalInches * 2.54).toFixed(1); // Preciznija konverzija
+      heightValue = (totalInches * 2.54).toFixed(1);
     }
 
     // Izračun težine u kg za pohranu (uvijek pohranjujemo u metričkom sustavu)
@@ -170,6 +166,7 @@ const BodyDataForm = () => {
     }
 
     try {
+      // Provjera tokena za autorizaciju i slanje podataka na server
       const token = localStorage.getItem("token");
       const API_URL = "/api/body";
       const res = await fetch(API_URL, {
@@ -226,7 +223,7 @@ const BodyDataForm = () => {
       </div>
 
       <div className="flex flex-col md:flex-column gap-8">
-        {/* Unos osnovnih antropometrijskih podataka */}
+        {/* Unos tjelesnih podataka */}
         <div className="flex-1 flex flex-col gap-4">
           <div>
             <label className="block mb-1 font-semibold text-gray-200">
@@ -260,7 +257,7 @@ const BodyDataForm = () => {
             />
           </div>
 
-          {/* Uvjetno renderiranje unosa visine ovisno o mjernom sustavu */}
+          {/* Unosa visine ovisno o mjernom sustavu */}
           {unitSystem === "metric" ? (
             <div>
               <label className="block mb-1 font-semibold text-gray-200">

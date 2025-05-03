@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\chat\LoadingScreen.js
 // Komponenta za prikaz animacije učitavanja
 // Prikazuje animirani spinner dok se sadržaj učitava
 import React from "react";

@@ -1,6 +1,5 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\chat\GreetingScreen.js
 // Komponenta za prikaz pozdravnog zaslona u chatu
-// Prikazuje personalizirani pozdrav korisniku i poruku dobrodošlice
+// Prikazuje personalizirani pozdrav korisniku
 import React from "react";
 import { useTranslation } from "react-i18next";
 

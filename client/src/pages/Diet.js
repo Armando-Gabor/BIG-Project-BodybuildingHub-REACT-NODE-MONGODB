@@ -1,5 +1,4 @@
 // Stranica za planiranje prehrane i praćenje obroka
-// Omogućuje korisnicima kreiranje, spremanje i pregled nutritivnih informacija obroka
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import FoodInput from "../components/diet/FoodInput";
@@ -9,7 +8,7 @@ import { initialFood } from "../utils/dietUtils";
 
 function Diet() {
   const { t } = useTranslation(); // Hook za prijevode
-  const [tab, setTab] = useState(0); // Stanje za praćenje aktivnog taba (0 = novi obrok, 1 = spremljeni obroci)
+  const [tab, setTab] = useState(0); // Stanje za praćenje aktivnog taba
   const [mealName, setMealName] = useState(""); // Stanje za naziv obroka
   const [foods, setFoods] = useState([]); // Stanje za popis namirnica u obroku
   const [foodInput, setFoodInput] = useState(initialFood); // Stanje za unos nove namirnice

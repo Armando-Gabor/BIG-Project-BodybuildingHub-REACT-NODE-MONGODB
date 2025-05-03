@@ -1,4 +1,3 @@
-// filepath: c:\Root\Faks\Diplomski rad\implementacija\client\src\components\diet\FoodInput.js
 // Komponenta za unos nove namirnice u plan prehrane
 // Omogućava unos naziva namirnice i nutritivnih vrijednosti
 import React from "react";
