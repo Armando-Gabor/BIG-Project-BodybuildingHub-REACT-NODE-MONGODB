@@ -317,7 +317,7 @@
     "fatsPer100g": "Fats per 100g",
     "foodNamePlaceholder": "Enter food name",
     "calculatedNutrition": "Calculated nutrition for {{grams}}g",
-    "confirmDelete": "Are you sure you want to delete this meal?",
+    "deleteConfirm": "Are you sure you want to delete this meal?",
     "deleteMeal": "Delete meal",
     "mealDeleted": "Meal successfully deleted!",
     "mealSaved": "Meal successfully saved!",

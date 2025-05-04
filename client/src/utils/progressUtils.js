@@ -36,30 +36,3 @@ export const formatMeasurements = (data) => {
     ])
   );
 };
-
-// Pomoćna funkcija za pretvorbu svih mjerenja između metričkog i imperijalnog sustava
-export const convertMeasurements = (measurements, fromUnit, toUnit) => {
-  // Ako su mjerne jedinice iste ili su mjerenja prazna, vraća nepromijenjeno
-  if (fromUnit === toUnit || !measurements) {
-    return measurements;
-  }
-
-  const convertedMeasurements = {};
-
-  // Pretvorba svake mjerne vrijednosti
-  for (const [key, value] of Object.entries(measurements)) {
-    if (value === "" || isNaN(parseFloat(value))) {
-      convertedMeasurements[key] = value;
-    } else {
-      if (fromUnit === "metric" && toUnit === "imperial") {
-        // Pretvorba iz centimetara u inče (1 cm = 0.393701 inča)
-        convertedMeasurements[key] = (parseFloat(value) * 0.393701).toFixed(2);
-      } else if (fromUnit === "imperial" && toUnit === "metric") {
-        // Pretvorba iz inča u centimetre (1 inč = 2.54 cm)
-        convertedMeasurements[key] = (parseFloat(value) * 2.54).toFixed(2);
-      }
-    }
-  }
-
-  return convertedMeasurements;
-};

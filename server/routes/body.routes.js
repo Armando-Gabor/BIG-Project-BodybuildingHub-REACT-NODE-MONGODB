@@ -7,11 +7,11 @@ const { authMiddleware } = require("../auth");
 /**
  * POST /
  * Ruta za spremanje novih tjelesnih mjera za autentificiranog korisnika
- * Prima podatke o spolu, težini, visini i detaljnim mjerama dijelova tijela
+ * Prima podatke o spolu, težini, visini, odabranom mjernom sustavu i detaljnim mjerama dijelova tijela
  */
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { gender, weight, height, measurements } = req.body;
+    const { gender, weight, height, measurements, unitSystem } = req.body;
 
     // Validacija da su svi potrebni podaci prisutni
     if (
@@ -19,6 +19,7 @@ router.post("/", authMiddleware, async (req, res) => {
       !weight ||
       !height ||
       !measurements ||
+      !unitSystem ||
       Object.values(measurements).some((v) => v === undefined || v === "")
     ) {
       return res.status(400).json({ message: "All fields are required." });
@@ -32,6 +33,7 @@ router.post("/", authMiddleware, async (req, res) => {
       weight,
       height,
       measurements,
+      unitSystem,
     });
 
     await entry.save();

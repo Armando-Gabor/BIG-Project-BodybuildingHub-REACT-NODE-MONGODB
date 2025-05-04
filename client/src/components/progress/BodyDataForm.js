@@ -1,12 +1,11 @@
 // Komponenta za unos i ažuriranje tjelesnih podataka korisnika
-// Omogućuje unos podataka o tjelesnim mjerama (spol, težina, visina, opsezi mišića)
+// Omogućuje unos podataka o tjelesnim mjerama (spol, težina, visina, opsezi mišića) i odabir mjernog sustava
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import MeasurementsInput from "./MeasurementsInput";
 import {
   initialMeasurements,
   formatMeasurements,
-  convertMeasurements,
 } from "../../utils/progressUtils";
 
 const BodyDataForm = () => {
@@ -37,37 +36,33 @@ const BodyDataForm = () => {
           const data = await res.json();
           setGender(data.gender || "");
 
-          const weightVal = data.weight?.toString() || "";
+          // Postavljanje mjernog sustava iz prethodno spremljenih podataka
+          const savedUnitSystem = data.unitSystem || "metric";
+          setUnitSystem(savedUnitSystem);
 
-          // Konverzija težine ako je odabran imperijalni sustav
-          if (unitSystem === "imperial" && weightVal) {
-            setWeight((parseFloat(weightVal) * 2.20462).toFixed(2));
+          // Postavljanje težine ovisno o mjernom sustavu
+          setWeight(data.weight?.toString() || "");
+
+          // Postavljanje visine ovisno o mjernom sustavu
+          if (savedUnitSystem === "metric") {
+            setHeight(data.height?.toString() || "");
           } else {
-            setWeight(weightVal);
-          }
-
-          setHeight(data.height?.toString() || "");
-
-          // Ako je odabran imperijalni sustav, izračunaj stope i inče
-          if (unitSystem === "imperial" && data.height) {
-            const heightInCm = parseFloat(data.height);
-            const totalInches = heightInCm * 0.393701;
-            const calculatedFeet = Math.floor(totalInches / 12);
-            const calculatedInches = Math.round((totalInches % 12) * 10) / 10;
-            setFeet(calculatedFeet.toString());
-            setInches(calculatedInches.toString());
+            // Ako je imperijalni sustav, izračunaj stope i inče iz spremljene vrijednosti
+            const heightInInches = parseFloat(data.height || 0);
+            if (heightInInches > 0) {
+              const calculatedFeet = Math.floor(heightInInches / 12);
+              const calculatedInches =
+                Math.round((heightInInches % 12) * 10) / 10;
+              setFeet(calculatedFeet.toString());
+              setInches(calculatedInches.toString());
+            } else {
+              setFeet("");
+              setInches("");
+            }
           }
 
           // Formatiranje mjera iz API odgovora
-          const formattedMeasurements = formatMeasurements(data);
-
-          if (unitSystem === "imperial") {
-            setMeasurements(
-              convertMeasurements(formattedMeasurements, "metric", "imperial")
-            );
-          } else {
-            setMeasurements(formattedMeasurements);
-          }
+          setMeasurements(formatMeasurements(data));
         }
       } catch {
         // Ignoriranje grešaka, nema ispunjavanja podataka
@@ -80,51 +75,62 @@ const BodyDataForm = () => {
   const handleUnitSystemChange = (newSystem) => {
     if (newSystem === unitSystem) return;
 
-    if (newSystem === "imperial") {
-      // Konverzija iz metričkog u imperijalni sustav
-      if (weight) {
-        setWeight((parseFloat(weight) * 2.20462).toFixed(1));
-      }
-
-      if (height) {
-        // Pohrani originalnu visinu za točnu konverziju natrag
-        localStorage.setItem("originalHeight", height);
-        const heightInCm = parseFloat(height);
-        const totalInches = heightInCm * 0.393701;
-        const calculatedFeet = Math.floor(totalInches / 12);
-        const calculatedInches = Math.round((totalInches % 12) * 10) / 10;
-        setFeet(calculatedFeet.toString());
-        setInches(calculatedInches.toString());
-      }
-
-      setMeasurements(convertMeasurements(measurements, "metric", "imperial"));
+    // Resetiranje svih vrijednosti pri promjeni mjernog sustava
+    setWeight("");
+    if (newSystem === "metric") {
+      setHeight("");
     } else {
-      // Konverzija iz imperijalnog u metrički sustav
-      if (weight) {
-        setWeight((parseFloat(weight) / 2.20462).toFixed(1));
-      }
-
-      // Ako imamo pohranjenu originalnu visinu, koristi nju umjesto konverzije
-      const originalHeight = localStorage.getItem("originalHeight");
-      if (
-        originalHeight &&
-        originalHeight !== "undefined" &&
-        originalHeight !== "null"
-      ) {
-        setHeight(originalHeight);
-      } else if (feet || inches) {
-        const feetValue = parseFloat(feet) || 0;
-        const inchesValue = parseFloat(inches) || 0;
-        const totalInches = feetValue * 12 + inchesValue;
-        const heightInCm = (totalInches * 2.54).toFixed(1);
-        setHeight(heightInCm);
-      }
-
-      // Konverzija svih mjera iz imperijalnog u metrički sustav
-      setMeasurements(convertMeasurements(measurements, "imperial", "metric"));
+      setFeet("");
+      setInches("");
     }
-
+    setMeasurements(initialMeasurements);
     setUnitSystem(newSystem);
+
+    // Provjeriti postoje li spremljeni podaci sa istim mjernim sustavom i učitati ih
+    fetchBodyDataForUnitSystem(newSystem);
+  };
+
+  // Funkcija za dohvat podataka prema mjernom sustavu
+  const fetchBodyDataForUnitSystem = async (selectedUnitSystem) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("/api/body/latest", {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        // Provjeri odgovara li spremljeni mjerni sustav odabranom
+        if (data.unitSystem === selectedUnitSystem) {
+          setGender(data.gender || "");
+          setWeight(data.weight?.toString() || "");
+
+          // Postavljanje visine ovisno o mjernom sustavu
+          if (selectedUnitSystem === "metric") {
+            setHeight(data.height?.toString() || "");
+          } else {
+            // Ako je imperijalni sustav, izračunaj stope i inče iz spremljene vrijednosti
+            const heightInInches = parseFloat(data.height || 0);
+            if (heightInInches > 0) {
+              const calculatedFeet = Math.floor(heightInInches / 12);
+              const calculatedInches =
+                Math.round((heightInInches % 12) * 10) / 10;
+              setFeet(calculatedFeet.toString());
+              setInches(calculatedInches.toString());
+            }
+          }
+
+          // Formatiranje mjera iz API odgovora
+          setMeasurements(formatMeasurements(data));
+        }
+        // Ako mjerni sustav ne odgovara, zadržavamo prazna polja (već postavljeno iznad u handleUnitSystemChange)
+      }
+    } catch {
+      // Ignoriranje grešaka, zadržavamo prazna polja
+    }
   };
 
   // Funkcija za ažuriranje stanja mjera prilikom promjene u formi
@@ -140,29 +146,15 @@ const BodyDataForm = () => {
     e.preventDefault();
     setMessage("");
 
-    // Izračun visine u cm za pohranu (uvijek pohranjujemo u metričkom sustavu)
-    let heightValue = height;
-    if (unitSystem === "imperial") {
+    // Izračun visine prema mjernom sustavu za pohranu
+    let heightValue;
+    if (unitSystem === "metric") {
+      heightValue = height;
+    } else {
+      // Za imperijalni sustav, visina se pohranjuje kao ukupan broj inča
       const feetValue = parseFloat(feet) || 0;
       const inchesValue = parseFloat(inches) || 0;
-      const totalInches = feetValue * 12 + inchesValue;
-      heightValue = (totalInches * 2.54).toFixed(1);
-    }
-
-    // Izračun težine u kg za pohranu (uvijek pohranjujemo u metričkom sustavu)
-    let weightValue = weight;
-    if (unitSystem === "imperial") {
-      weightValue = (parseFloat(weight) / 2.20462).toFixed(1);
-    }
-
-    // Konverzija mjera u metrički sustav za pohranu ako su trenutno u imperijalnom
-    let measurementsToSave = measurements;
-    if (unitSystem === "imperial") {
-      measurementsToSave = convertMeasurements(
-        measurements,
-        "imperial",
-        "metric"
-      );
+      heightValue = (feetValue * 12 + inchesValue).toString();
     }
 
     try {
@@ -177,9 +169,10 @@ const BodyDataForm = () => {
         },
         body: JSON.stringify({
           gender,
-          weight: weightValue,
+          weight,
           height: heightValue,
-          measurements: measurementsToSave,
+          measurements,
+          unitSystem,
         }),
       });
       if (res.ok) {

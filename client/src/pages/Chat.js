@@ -105,17 +105,46 @@ const Chat = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "google/gemini-2.0-flash-exp:free", // Korišteni AI model
+            model: "meta-llama/llama-4-maverick:free", // Korišteni AI model
             messages: formattedMessages,
           }),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("API request failed");
+      // Provjera statusa odgovora
+      const data = await response.json();
+      console.log("API response:", data);
+
+      // Provjera grešaka u odgovoru
+      if (!response.ok || data.error) {
+        const errorCode = data.error?.code;
+        let errorMessage =
+          data.error?.message ||
+          (data.error
+            ? JSON.stringify(data.error)
+            : `API request failed with status ${response.status}`);
+
+        if (errorCode === 429) {
+          errorMessage =
+            "Rate limit exceeded. Please wait a moment before sending another message.";
+        }
+
+        throw new Error(errorMessage);
       }
 
-      const data = await response.json();
+      // Provjera formata odgovora
+      if (
+        !data.choices ||
+        !Array.isArray(data.choices) ||
+        data.choices.length === 0
+      ) {
+        throw new Error("Invalid API response format: missing choices array");
+      }
+
+      // Provjera da li je odgovor asistenta prisutan
+      if (!data.choices[0].message || !data.choices[0].message.content) {
+        throw new Error("Invalid API response format: missing message content");
+      }
 
       // Izdvajanje odgovora asistenta
       const assistantMessage = {
@@ -132,7 +161,7 @@ const Chat = () => {
         ...prev,
         {
           role: "assistant",
-          content: t("chat.errorMessage"),
+          content: `${t("chat.errorMessage")} ${error.message}`,
         },
       ]);
     } finally {

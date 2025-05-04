@@ -16,6 +16,12 @@ const bodyTrackingSchema = new Schema(
       enum: ["male", "female"],
       required: true,
     },
+    unitSystem: {
+      type: String,
+      enum: ["metric", "imperial"],
+      required: true,
+      default: "metric",
+    },
     weight: {
       type: Number,
       required: true,
