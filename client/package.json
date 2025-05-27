@@ -6,7 +6,6 @@
     "i18next": "^25.0.2",
     "jspdf": "^3.0.1",
     "jspdf-autotable": "^5.0.2",
-    "jspdf-font": "^1.0.7",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
     "react": "^18.2.0",
